@@ -18,6 +18,9 @@ public class UsuarioResponseDTO {
 	private List<Servico> servicos;
 	
 	// Construtor que converte Entidade -> DTO 
+	public UsuarioResponseDTO() {
+	}
+	
     public UsuarioResponseDTO(Usuario usuario) {
         this.id = usuario.getId();
         this.nome = usuario.getNome();
@@ -25,7 +28,18 @@ public class UsuarioResponseDTO {
         this.email = usuario.getEmail();
         this.statusUsuario = usuario.getStatusUsuario();
         this.tipo = usuario.getTipo();
-        this.servicos = usuario.getServicos(); // Passa a lista de serviços
+        this.servicos = usuario.getServicos(); 
+    }
+    
+    public UsuarioResponseDTO(Long id, String nome, String telefone, String email, 
+    							 StatusUsuario statusUsuario, TipoUsuario tipo, List<Servico> servicos) {
+    	this.id = id;
+    	this.nome = nome;
+    	this.telefone = telefone;
+    	this.email = email;
+    	this.statusUsuario = statusUsuario;
+    	this.tipo = tipo;
+    	this.servicos = servicos; 
     }
 	
 	//GETs & SETs
