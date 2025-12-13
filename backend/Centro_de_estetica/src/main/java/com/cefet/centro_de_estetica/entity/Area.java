@@ -24,15 +24,15 @@ public class Area {
     @Column(nullable = false, length= 100)
     private String descricao; 
     
-
-    
     @OneToMany(mappedBy = "area") 
     @JsonIgnore
     private List<Servico> servicos;
 
+    //Construtor
     public Area() {
     }
 
+    //GETs & SETs
     public Long getIdArea() {
         return idArea;
     }

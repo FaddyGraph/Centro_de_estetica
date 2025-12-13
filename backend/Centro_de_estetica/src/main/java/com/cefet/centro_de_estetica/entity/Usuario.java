@@ -1,6 +1,8 @@
 package com.cefet.centro_de_estetica.entity;
 
 
+import java.util.List;
+
 import com.cefet.centro_de_estetica.enums.StatusUsuario;
 import com.cefet.centro_de_estetica.enums.TipoUsuario;
 
@@ -11,7 +13,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.JoinColumn;
 
 @Entity
 @Table(name = "tb_usuario")
@@ -42,6 +47,17 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipo;
     
+    @ManyToMany
+    @JoinTable(
+            name = "tb_usuario_servico",
+            joinColumns = @JoinColumn(name = "id_usuario_funcionario"), 
+            inverseJoinColumns = @JoinColumn(name = "id_servico") 
+        )
+    private List<Servico> servicos;
+    
+    //
+    
+    //GETs & SETs
     public Long getId() {
     	return id;
     }
@@ -98,7 +114,12 @@ public class Usuario {
 		this.tipo = tipo;
 	}
 
+	public List<Servico> getServicos() {
+		return servicos;
+	}
 
-    
+	public void setServicos(List<Servico> servicos) {
+		this.servicos = servicos;
+	}   
 	
 }

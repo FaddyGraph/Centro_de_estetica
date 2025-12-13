@@ -2,6 +2,9 @@ package com.cefet.centro_de_estetica.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -33,6 +37,10 @@ public class Servico {
     @ManyToOne 
     @JoinColumn(name = "id_area") 
     private Area area;
+    
+    @ManyToMany(mappedBy = "servicos")
+    @JsonIgnore
+    private List<Usuario> funcionarios;
 
     public Servico() {}
 
@@ -53,4 +61,12 @@ public class Servico {
 
     public Area getArea() { return area; }
     public void setArea(Area area) { this.area = area; }
+
+	public List<Usuario> getFuncionarios() {
+		return funcionarios;
+	}
+
+	public void setFuncionarios(List<Usuario> funcionarios) {
+		this.funcionarios = funcionarios;
+	}
 }
