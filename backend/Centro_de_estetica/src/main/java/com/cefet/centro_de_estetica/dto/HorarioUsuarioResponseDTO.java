@@ -23,6 +23,14 @@ public class HorarioUsuarioResponseDTO {
         this.nomeFuncionario = horarioUsuario.getFuncionario().getNome();
     }
 
+    public HorarioUsuarioResponseDTO(Long id, Integer diaSemana, LocalTime horario, Long idFuncionario, String nomeFuncionario) {
+        this.id = id;
+        this.diaSemana = diaSemana;
+        this.horario = horario;
+        this.idFuncionario = idFuncionario;
+        this.nomeFuncionario = nomeFuncionario;
+    }
+
 
     public Long getId() { 
         return id; 

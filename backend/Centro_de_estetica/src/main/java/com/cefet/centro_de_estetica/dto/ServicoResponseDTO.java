@@ -28,6 +28,15 @@ public class ServicoResponseDTO {
         this.nomeArea = servico.getArea().getNome();
     }
 
+    public ServicoResponseDTO(Long id, String nome, String descricao, BigDecimal valor, LocalTime tempoAtendimento, String nomeArea) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.valor = valor;
+        this.tempoAtendimento = tempoAtendimento;
+        this.nomeArea = nomeArea;
+    }
+
     public Long getId() {
         return id;
     }

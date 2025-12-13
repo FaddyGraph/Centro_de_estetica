@@ -17,6 +17,11 @@ public class AreaResponseDTO {
         this.descricao = area.getDescricao();
     }
 
+    public AreaResponseDTO(Long id, String nome, String descricao) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
+    }
 
     public Long getId() {
         return id;
