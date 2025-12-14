@@ -7,4 +7,6 @@ import com.cefet.centro_de_estetica.entity.Area;
 
 @Repository
 public interface AreaRepository extends JpaRepository<Area, Long> {
+	boolean existsByNome(String nome);
+	Area findByNome(String nome);
 }

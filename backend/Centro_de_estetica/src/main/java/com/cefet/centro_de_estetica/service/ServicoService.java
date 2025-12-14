@@ -23,7 +23,7 @@ public class ServicoService {
     }
 
     public List<Servico> buscarPorArea(Long idArea) {
-        return repository.findByAreaIdArea(idArea);
+        return repository.findByAreaId(idArea);
     }
     
     public void deletar(Long id) {

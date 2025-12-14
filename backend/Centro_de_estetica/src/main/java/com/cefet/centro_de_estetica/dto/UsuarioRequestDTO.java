@@ -13,7 +13,7 @@ public record UsuarioRequestDTO (
 	 String senha,
 	 StatusUsuario statusUsuario,
 	 TipoUsuario tipo,
-	 List<Long> servicosIds
+	 List<Long> servicosIDs
 ){}
 
 

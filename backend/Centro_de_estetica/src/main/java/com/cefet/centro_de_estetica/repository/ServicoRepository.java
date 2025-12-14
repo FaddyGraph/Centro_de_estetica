@@ -9,5 +9,5 @@ import com.cefet.centro_de_estetica.entity.Servico;
 
 @Repository
 public interface ServicoRepository extends JpaRepository<Servico, Long> {
-    List<Servico> findByAreaIdArea(Long idArea);
-}
+	List<Servico> findByAreaId(Long id);
+	}

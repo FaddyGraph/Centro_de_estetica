@@ -16,7 +16,7 @@ public class Area {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idArea;
+    private Long id;
 
     @Column(nullable = false, length = 45)
     private String nome; 
@@ -34,11 +34,11 @@ public class Area {
 
     //GETs & SETs
     public Long getIdArea() {
-        return idArea;
+        return id;
     }
 
     public void setIdArea(Long idArea) {
-		this.idArea = idArea;
+		this.id = idArea;
 	}
 
 	public String getNome() {
