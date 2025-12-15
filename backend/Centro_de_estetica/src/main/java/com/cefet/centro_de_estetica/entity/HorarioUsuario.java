@@ -3,6 +3,7 @@ package com.cefet.centro_de_estetica.entity;
 import java.time.LocalTime;
 
 import com.cefet.centro_de_estetica.enums.DiaDaSemana;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,10 +29,13 @@ public class HorarioUsuario {
     private DiaDaSemana diaSemana; 
     
     @Column(nullable = false)
-    private LocalTime horario; 
+    private LocalTime horarioInicio;
+    @Column(nullable = false)
+    private LocalTime horarioFim;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario_funcionario", nullable = false)
+    @JsonIgnore
     private Usuario funcionario;
 
     public HorarioUsuario() {}
@@ -43,9 +47,35 @@ public class HorarioUsuario {
     public DiaDaSemana getDiaSemana() { return diaSemana; }
     public void setDiaSemana(DiaDaSemana diaSemana) { this.diaSemana = diaSemana; }
 
-    public LocalTime getHorario() { return horario; }
-    public void setHorario(LocalTime horario) { this.horario = horario; }
 
-    public Usuario getFuncionario() { return funcionario; }
-    public void setFuncionario(Usuario funcionario) { this.funcionario = funcionario; }
+	public LocalTime getHorarioInicio() {
+		return horarioInicio;
+	}
+
+
+	public void setHorarioInicio(LocalTime horarioInicio) {
+		this.horarioInicio = horarioInicio;
+	}
+
+
+	public LocalTime getHorarioFim() {
+		return horarioFim;
+	}
+
+
+	public void setHorarioFim(LocalTime horarioFim) {
+		this.horarioFim = horarioFim;
+	}
+
+
+	public Usuario getFuncionario() {
+		return funcionario;
+	}
+
+
+	public void setFuncionario(Usuario funcionario) {
+		this.funcionario = funcionario;
+	}
+
+    
 }

@@ -57,7 +57,7 @@ public class Usuario {
         )
     private List<Servico> servicos;
     
-    @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL) // 'funcionario' é o nome do atributo lá na classe HorarioUsuario
+    @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL) 
     private List<HorarioUsuario> horarios;
     
     

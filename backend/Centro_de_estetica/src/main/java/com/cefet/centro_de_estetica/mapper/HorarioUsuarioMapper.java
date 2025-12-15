@@ -15,7 +15,8 @@ public class HorarioUsuarioMapper {
         return new HorarioUsuarioResponseDTO(
             entity.getId(),
             entity.getDiaSemana(),
-            entity.getHorario(),
+            entity.getHorarioInicio(),
+            entity.getHorarioFim(),
             entity.getFuncionario().getId(),
             entity.getFuncionario().getNome() 
         );
@@ -26,7 +27,8 @@ public class HorarioUsuarioMapper {
 
         HorarioUsuario entity = new HorarioUsuario();
         entity.setDiaSemana(dto.diaSemana());
-        entity.setHorario(dto.horario());
+        entity.setHorarioInicio(dto.horarioInicio());
+        entity.setHorarioFim(dto.horarioFim());
         entity.setFuncionario(funcionario);
 
         return entity;

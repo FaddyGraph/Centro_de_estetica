@@ -35,7 +35,8 @@ public class UsuarioMapper {
                 HorarioUsuario novoHorario = new HorarioUsuario();
                 
                 novoHorario.setDiaSemana(horarioDTO.getDiaSemana());
-                novoHorario.setHorario(horarioDTO.getHorario());
+                novoHorario.setHorarioInicio(horarioDTO.getHorarioInicio());
+                novoHorario.setHorarioFim(horarioDTO.getHorarioFim());
                 
                 novoHorario.setFuncionario(usuario); 
                 

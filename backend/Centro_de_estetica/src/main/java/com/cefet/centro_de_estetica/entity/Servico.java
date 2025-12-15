@@ -36,6 +36,7 @@ public class Servico {
 
     @ManyToOne 
     @JoinColumn(name = "id_area") 
+    @JsonIgnore
     private Area area;
     
     @ManyToMany(mappedBy = "servicos")

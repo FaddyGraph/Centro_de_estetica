@@ -9,7 +9,8 @@ public class HorarioUsuarioResponseDTO {
 
     private Long id;
     private DiaDaSemana diaSemana;
-    private LocalTime horario;
+    private LocalTime horarioInicio;
+    private LocalTime horarioFim;
     private Long idFuncionario;
     private String nomeFuncionario;
 
@@ -19,15 +20,16 @@ public class HorarioUsuarioResponseDTO {
     public HorarioUsuarioResponseDTO(HorarioUsuario horarioUsuario) {
         this.id = horarioUsuario.getId();
         this.diaSemana = horarioUsuario.getDiaSemana();
-        this.horario = horarioUsuario.getHorario();
+        
         this.idFuncionario = horarioUsuario.getFuncionario().getId();
         this.nomeFuncionario = horarioUsuario.getFuncionario().getNome();
     }
 
-    public HorarioUsuarioResponseDTO(Long id, DiaDaSemana diaSemana, LocalTime horario, Long idFuncionario, String nomeFuncionario) {
+    public HorarioUsuarioResponseDTO(Long id, DiaDaSemana diaSemana, LocalTime horarioInicio, LocalTime horarioFim, Long idFuncionario, String nomeFuncionario) {
         this.id = id;
         this.diaSemana = diaSemana;
-        this.horario = horario;
+        this.horarioInicio = horarioInicio;
+        this.horarioFim = horarioFim;
         this.idFuncionario = idFuncionario;
         this.nomeFuncionario = nomeFuncionario;
     }
@@ -49,15 +51,24 @@ public class HorarioUsuarioResponseDTO {
         this.diaSemana = diaSemana; 
     }
 
-    public LocalTime getHorario() { 
-        return horario; 
-    }
 
-    public void setHorario(LocalTime horario) { 
-        this.horario = horario; 
-    }
+    public LocalTime getHorarioInicio() {
+		return horarioInicio;
+	}
 
-    public Long getIdFuncionario() { 
+	public void setHorarioInicio(LocalTime horarioInicio) {
+		this.horarioInicio = horarioInicio;
+	}
+
+	public LocalTime getHorarioFim() {
+		return horarioFim;
+	}
+
+	public void setHorarioFim(LocalTime horarioFim) {
+		this.horarioFim = horarioFim;
+	}
+
+	public Long getIdFuncionario() { 
         return idFuncionario; 
     }
 

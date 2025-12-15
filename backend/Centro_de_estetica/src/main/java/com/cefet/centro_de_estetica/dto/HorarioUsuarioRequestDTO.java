@@ -6,6 +6,7 @@ import com.cefet.centro_de_estetica.enums.DiaDaSemana;
 
 public record HorarioUsuarioRequestDTO(
 	DiaDaSemana diaSemana,
-    LocalTime horario,
+	LocalTime horarioInicio, 
+    LocalTime horarioFim,
     Long idFuncionario
 ) {}

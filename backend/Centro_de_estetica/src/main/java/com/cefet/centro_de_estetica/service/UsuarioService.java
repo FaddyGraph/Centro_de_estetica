@@ -81,7 +81,8 @@ public class UsuarioService {
 			List<HorarioUsuario> novosHorarios = dto.horarios().stream().map(horario -> {
 				HorarioUsuario novo = new HorarioUsuario();
 				novo.setDiaSemana(horario.getDiaSemana());
-				novo.setHorario(horario.getHorario());
+				novo.setHorarioInicio(horario.getHorarioInicio());
+				novo.setHorarioFim(horario.getHorarioFim());
 				novo.setFuncionario(usuarioEncontrado);
 				return novo;
 			}).collect(Collectors.toList());
@@ -97,12 +98,10 @@ public class UsuarioService {
 		// Salva a entidade atualizada de volta no banco de dados.
 		Usuario usuarioAtualizada = repository.save(usuarioEncontrado);
 
-		// Converte a entidade atualizada para um DTO de resposta.
 		return mapper.toResponseDTO(usuarioAtualizada);
 	}
 
 	public void deletar(Long id) {
-		// verificação de existência antes de deletar.
 
 		if (!repository.existsById(id)) {
 			throw new RuntimeException("Não foi possível deletar. Usuario com id " + id + " não encontrado.");
