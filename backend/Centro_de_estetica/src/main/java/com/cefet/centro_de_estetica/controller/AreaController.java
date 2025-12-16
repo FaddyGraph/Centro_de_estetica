@@ -17,10 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cefet.centro_de_estetica.dto.AreaRequestDTO;
 import com.cefet.centro_de_estetica.dto.AreaResponseDTO;
 import com.cefet.centro_de_estetica.service.AreaService;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("/areas") 
+@CrossOrigin("*")
 public class AreaController {
 
     private final AreaService service;

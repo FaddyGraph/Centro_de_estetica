@@ -59,7 +59,7 @@ export class LoginComponent {
             console.log('Login Sucesso:', usuario);
             localStorage.setItem('usuario', JSON.stringify(usuario));
             alert("Bem-vindo(a) " + usuario.nome);
-            this.router.navigate(['/agendamento-cliente']); // Descomente quando criar a home
+            this.router.navigate(['/home']); // Descomente quando criar a home
           },
           error: (err) => {
             this.erroLogin = true;
