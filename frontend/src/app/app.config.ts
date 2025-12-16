@@ -5,11 +5,15 @@ import { routes } from './app.routes';
 
 import { provideHttpClient } from '@angular/common/http';
 
+import { provideEnvironmentNgxMask } from 'ngx-mask';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
 
-    provideHttpClient()
+    provideHttpClient(),
+
+    provideEnvironmentNgxMask()
   ]
 };

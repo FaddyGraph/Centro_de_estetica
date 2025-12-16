@@ -56,6 +56,12 @@ public class UsuarioController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+    
+    @GetMapping("/verificar-email")
+    public ResponseEntity<Boolean> verificarEmail(@RequestParam String email) {
+        boolean existe = service.verificarSeEmailExiste(email); // Ou chame o repository direto se preferir
+        return ResponseEntity.ok(existe);
+    }
 
     
     @PutMapping("/{id}")

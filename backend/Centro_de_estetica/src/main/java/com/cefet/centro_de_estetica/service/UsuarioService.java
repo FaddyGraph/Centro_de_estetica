@@ -72,6 +72,10 @@ public class UsuarioService {
 	public Optional<UsuarioResponseDTO> buscarPorEmail(String email) {
 		return repository.findByEmail(email).map(mapper::toResponseDTO);
 	}
+	
+	public boolean verificarSeEmailExiste(String email) {
+		return repository.existsByEmail(email);
+	}
 
 	public UsuarioResponseDTO atualizar(Long id, UsuarioRequestDTO dto) {
 		// Tenta encontrar no banco.
