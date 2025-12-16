@@ -1,1 +1,101 @@
-/* You can add global styles to this file, and also import other style files */
+/* src/styles.css */
+
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Fundo Mármore */
+.login-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Estilo Global para o Fundo */
+body {
+    /* Define a cor base (caso a imagem demore a carregar) */
+    background-color: #f7f7f7;
+
+    /* A imagem de fundo (usando a mesma textura de mármore do login) */
+    background-image: url('assets/images/marmore.jpg');
+    
+    /* 3. Faz o fundo cobrir tudo ou repetir (para texturas, repeat é melhor) */
+    background-size: cover;
+
+    /* Deixa o fundo "travado" enquanto a tela rola */
+    background-attachment: fixed;
+
+    /* Configuração de fonte global */
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* Garante que o body ocupe 100% da altura */
+}
+
+/* Imagem de Perfil Quadrada com bordas arredondadas */
+.profile-img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 15px; 
+}
+
+/* Card customizado */
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.95); /* Leve transparência */
+}
+
+/* Inputs "Clean" */
+.input-group-text {
+    border-color: #e0e0e0;
+}
+
+.form-control {
+    border-color: #e0e0e0;
+    font-size: 0.9rem;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #bbb;
+}
+
+.form-control::placeholder {
+    color: #cecece;
+    font-size: 0.85rem;
+}
+
+/* Botão Preto Personalizado */
+.btn-black {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-black:hover {
+    background-color: #333;
+    transform: translateY(-1px);
+}
+
+.x-small {
+    font-size: 0.75rem;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

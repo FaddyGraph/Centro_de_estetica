@@ -1,0 +1,74 @@
+/* Fundo Mármore / Clean */
+.login-page {
+    
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Imagem de Perfil Quadrada com bordas arredondadas */
+.profile-img {
+    width: 120px; /* Aumentei um pouco (era 90px) para o logo destacar */
+    height: 120px;
+    object-fit: contain; 
+    border-radius: 15%; 
+    background-color: white; 
+    padding: 5px; 
+}
+
+/* Card customizado com leve transparência */
+.login-card {
+    width: 100%;
+    max-width: 400px; /* Largura ideal para login */
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.95); /* Deixa o fundo levemente transparente */
+}
+
+/* Customização dos Inputs para ficar "Clean" */
+.input-group-text {
+    border-color: #e0e0e0;
+}
+
+.form-control {
+    border-color: #e0e0e0;
+    font-size: 0.9rem;
+    padding-left: 0; /* Cola o texto no ícone */
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #bbb; /* Foco cinza em vez de azul */
+}
+
+.form-control::placeholder {
+    color: #cecece;
+    font-size: 0.85rem;
+}
+
+/* Botão Preto Personalizado (Estilo Rafaella Samora) */
+.btn-black {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-black:hover {
+    background-color: #333; /* Cinza escuro ao passar o mouse */
+    transform: translateY(-1px);
+}
+
+.btn-black:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Utilitários de Texto */
+.x-small {
+    font-size: 0.75rem;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
