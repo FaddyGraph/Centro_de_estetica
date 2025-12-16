@@ -11,6 +11,8 @@ import com.cefet.centro_de_estetica.dto.UsuarioResponseDTO;
 import com.cefet.centro_de_estetica.entity.HorarioUsuario;
 import com.cefet.centro_de_estetica.entity.Servico;
 import com.cefet.centro_de_estetica.entity.Usuario;
+import com.cefet.centro_de_estetica.enums.StatusUsuario;
+import com.cefet.centro_de_estetica.enums.TipoUsuario;
 import com.cefet.centro_de_estetica.mapper.UsuarioMapper;
 import com.cefet.centro_de_estetica.repository.ServicoRepository;
 import com.cefet.centro_de_estetica.repository.UsuarioRepository;
@@ -37,7 +39,16 @@ public class UsuarioService {
 			throw new RuntimeException("Email já cadastrado!");
 		}
 		//
+		
 		Usuario usuario = mapper.toEntity(requestDTO);
+		if (usuario.getStatusUsuario() == null) {
+			usuario.setStatusUsuario(StatusUsuario.ATIVO); 
+		}
+		
+		// Se o perfil também vier vazio, garanta o CLIENTE 
+		if (usuario.getTipo() == null) {
+			usuario.setTipo(TipoUsuario.CLIENTE);
+		}
 		// se for funcionario é pra pegar os serviços
 		if (requestDTO.servicosIDs() != null && !requestDTO.servicosIDs().isEmpty()) {
 

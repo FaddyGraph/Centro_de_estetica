@@ -9,12 +9,15 @@ import { LoginRequestDTO } from '../dto/login-request.dto';
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8080/auth/login';
+  private apiUrl = 'http://localhost:8080';
 
   constructor(private http: HttpClient) { }
 
   // Note que trocamos 'any' por 'LoginRequestDTO'
   login(credenciais: LoginRequestDTO): Observable<any> {
-    return this.http.post(this.apiUrl, credenciais);
+    return this.http.post(`${this.apiUrl}/auth/login`, credenciais);
+  }
+  cadastrar(dados: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/usuarios`, dados);
   }
 }
