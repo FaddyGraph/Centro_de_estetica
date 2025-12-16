@@ -49,6 +49,11 @@ public class ServicoService {
         return repository.findAll()
         		.stream().map(ServicoResponseDTO::new).collect(Collectors.toList());
     }
+    
+    public List<ServicoResponseDTO> listarPorArea(Long id) {
+    	return repository.findAllByAreaId(id)
+    			.stream().map(ServicoResponseDTO::new).collect(Collectors.toList());
+    }
 
     public Optional<ServicoResponseDTO> buscarPorId(Long id) {
         return repository.findById(id)

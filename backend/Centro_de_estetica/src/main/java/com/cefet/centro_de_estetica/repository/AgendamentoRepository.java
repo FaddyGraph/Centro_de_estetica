@@ -19,11 +19,14 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> 
     boolean existsByClienteAndDataHora(Usuario cliente, LocalDateTime dataHora);
 
     List<Agendamento> findByCliente(Usuario cliente);
+    List<Agendamento> findByClienteAndDataHoraBetween(Usuario cliente, LocalDateTime inicio, LocalDateTime fim);
     
     // Para o funcionário ver a agenda dele
     List<Agendamento> findByFuncionario(Usuario funcionario);
+    List<Agendamento> findByFuncionarioAndDataHoraBetween(Usuario funcionario, LocalDateTime inicio, LocalDateTime fim);
     
     List<Agendamento> findByDataHoraBetween(LocalDateTime inicio, LocalDateTime fim);
+    
     
     // Verifica conflito ignorando os cancelados.
     @Query("SELECT COUNT(a) > 0 FROM Agendamento a " +

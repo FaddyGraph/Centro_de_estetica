@@ -57,6 +57,15 @@ public class AgendamentoController {
     public ResponseEntity<List<AgendamentoResponseDTO>> buscarPorFuncionario(@PathVariable Long id) {
         return ResponseEntity.ok(service.buscarPorFuncionario(id));
     }
+    
+ // GET /agendamentos/agenda-diaria?usuarioId=2&data=2025-12-30
+    @GetMapping("/agenda-diaria")
+    public ResponseEntity<List<AgendamentoResponseDTO>> buscarAgendaDiaria(
+            @RequestParam Long usuarioId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
+        
+        return ResponseEntity.ok(service.buscarAgendaDoDia(usuarioId, data));
+    }
 
     // GET /agendamentos/data?data=2025-12-25
     @GetMapping("/data")

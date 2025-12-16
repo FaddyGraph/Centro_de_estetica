@@ -44,6 +44,11 @@ public class ServicoController {
     public ResponseEntity<List<ServicoResponseDTO>> listar() {
         return ResponseEntity.ok(service.listarTodos());
     }
+    
+    @GetMapping("/area/{id}")
+    public ResponseEntity<List<ServicoResponseDTO>> listarPelaArea(@PathVariable Long id) {
+    	return ResponseEntity.ok(service.listarPorArea(id));
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ServicoResponseDTO> buscarPorId(@PathVariable Long id) {
