@@ -4,6 +4,6 @@ import { AgendamentoClienteComponent } from './agendamento-cliente/agendamento-c
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' }, // Redireciona a raiz para o login
-    { path: 'login', component: LoginComponent }          // Define a rota do login
+    { path: 'login', component: LoginComponent } ,         // Define a rota do login
     { path: 'agendamento-cliente', component: AgendamentoClienteComponent }
 ];
