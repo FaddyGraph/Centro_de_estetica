@@ -22,7 +22,7 @@ import com.cefet.centro_de_estetica.service.ServicoService;
 
 @RestController
 @RequestMapping("/servicos") 
-@CrossOrigin("*")
+@CrossOrigin("*") 
 public class ServicoController {
 
     private final ServicoService service;
@@ -33,7 +33,6 @@ public class ServicoController {
 
     @PostMapping
     public ResponseEntity<ServicoResponseDTO> criar(@RequestBody @Validated ServicoRequestDTO dados) {
-        //  caso tente cadastrar com um ID de Área que não existe ou o tempo não for /15min
         try {
             ServicoResponseDTO novoServico = service.salvar(dados);
             return ResponseEntity.status(HttpStatus.CREATED).body(novoServico);
@@ -47,9 +46,10 @@ public class ServicoController {
         return ResponseEntity.ok(service.listarTodos());
     }
     
-    @GetMapping("/area/{id}")
+    // Rota ajustada de /area para /por-area para bater com o Frontend
+    @GetMapping("/por-area/{id}")
     public ResponseEntity<List<ServicoResponseDTO>> listarPelaArea(@PathVariable Long id) {
-    	return ResponseEntity.ok(service.listarPorArea(id));
+        return ResponseEntity.ok(service.listarPorArea(id));
     }
 
     @GetMapping("/{id}")

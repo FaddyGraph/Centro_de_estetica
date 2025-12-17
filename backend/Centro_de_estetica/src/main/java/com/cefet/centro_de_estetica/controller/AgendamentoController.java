@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,6 +27,7 @@ import com.cefet.centro_de_estetica.service.AgendamentoService;
 
 @RestController
 @RequestMapping("/agendamentos")
+@CrossOrigin("*") // Permite que o Angular (porta 4200) envie dados para o Java (porta 8080)
 public class AgendamentoController {
 
     private final AgendamentoService service;
@@ -46,7 +48,7 @@ public class AgendamentoController {
         return ResponseEntity.ok(service.listarTodos());
     }
     
- // GET /agendamentos/cliente/1
+    // GET /agendamentos/cliente/1
     @GetMapping("/cliente/{id}")
     public ResponseEntity<List<AgendamentoResponseDTO>> buscarPorCliente(@PathVariable Long id) {
         return ResponseEntity.ok(service.buscarPorCliente(id));
@@ -58,7 +60,7 @@ public class AgendamentoController {
         return ResponseEntity.ok(service.buscarPorFuncionario(id));
     }
     
- // GET /agendamentos/agenda-diaria?usuarioId=2&data=2025-12-30
+    // GET /agendamentos/agenda-diaria?usuarioId=2&data=2025-12-30
     @GetMapping("/agenda-diaria")
     public ResponseEntity<List<AgendamentoResponseDTO>> buscarAgendaDiaria(
             @RequestParam Long usuarioId,

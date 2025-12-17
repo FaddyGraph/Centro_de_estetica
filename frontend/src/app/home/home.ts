@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; 
 import { AgendamentoService } from '../services/agendamento.service';
@@ -24,7 +24,10 @@ export class HomeComponent implements OnInit {
   dataSelecionada: string = '';
   horaSelecionada: string = '';
 
-  constructor(private agendamentoService: AgendamentoService) {}
+  constructor(
+    private agendamentoService: AgendamentoService,
+    private cdr: ChangeDetectorRef 
+  ) {}
 
   ngOnInit(): void {
     this.carregarAreas();
@@ -32,40 +35,49 @@ export class HomeComponent implements OnInit {
 
   carregarAreas() {
     this.agendamentoService.listarAreas().subscribe({
-      next: (d) => this.areas = d,
-      error: (e) => console.error(e)
+      next: (d) => {
+        this.areas = d;
+        this.cdr.detectChanges();
+      },
+      error: (e) => console.error("Erro ao carregar áreas:", e)
     });
   }
 
   carregarServicos(idArea: number) {
     this.servicos = []; 
     this.agendamentoService.listarServicosPorArea(idArea).subscribe({
-      next: (d) => this.servicos = d,
-      error: (e) => console.error(e)
+      next: (d) => {
+        this.servicos = d;
+        this.cdr.detectChanges();
+      },
+      error: (e) => console.error("Erro ao carregar serviços:", e)
     });
   }
 
   carregarProfissionais() {
     this.profissionais = [];
-        const idServicoSelecionado = this.servicoSelecionado?.id;
-    if (idServicoSelecionado) {
-        this.agendamentoService.listarFuncionarios(idServicoSelecionado).subscribe({
-            next: (d) => this.profissionais = d, 
-            error: (e) => console.error(e)
-        });
+    const idServico = this.servicoSelecionado?.id;
+    if (idServico) {
+      this.agendamentoService.listarFuncionarios(idServico).subscribe({
+        next: (d) => {
+          this.profissionais = d;
+          this.cdr.detectChanges();
+        },
+        error: (e) => console.error("Erro ao carregar profissionais:", e)
+      });
     }
-}
+  }
 
-selecionarArea(area: any) { 
+  selecionarArea(area: any) { 
     this.areaSelecionada = area; 
-    if (this.areaSelecionada) {
-        this.proximoPasso(); 
-    }
-}  
+    this.carregarServicos(area.id); 
+    this.passoAtual = 2; 
+  }
+
   selecionarServico(servico: any) { 
     this.servicoSelecionado = servico; 
-    this.passoAtual = 3; 
     this.carregarProfissionais();
+    this.passoAtual = 3; 
   }
 
   selecionarProfissional(prof: any) {
@@ -73,33 +85,27 @@ selecionarArea(area: any) {
     this.passoAtual = 4; 
   }
 
-  proximoPasso() {
-    if (this.passoAtual === 1 && this.areaSelecionada) {
-      this.passoAtual = 2;
-      this.carregarServicos(this.areaSelecionada.id); 
-    } else if (this.passoAtual === 4 && this.dataSelecionada && this.horaSelecionada) {
-      this.finalizarAgendamento();
-    }
-}
-
   voltar() {
     if (this.passoAtual > 1) {
       this.passoAtual--;
-      if(this.passoAtual === 1) this.servicoSelecionado = null;
-      if(this.passoAtual === 2) this.profissionalSelecionado = null;
+      this.cdr.detectChanges();
     }
   }
 
   finalizarAgendamento() {
+    const idFunc = this.profissionalSelecionado?.id_usuario || this.profissionalSelecionado?.id;
+
     const agendamento = {
-      idCliente: 1, 
-      idFuncionario: this.profissionalSelecionado.id || null, 
-      idsServicos: [this.servicoSelecionado.id],
+      idCliente: 5, 
+      idFuncionario: idFunc, 
+      idServico: this.servicoSelecionado.id,
       dataHora: `${this.dataSelecionada}T${this.horaSelecionada}:00`, 
-      observacoes: "Agendado pelo App"
+      observacoes: "Agendado via Web"
     };
 
-    console.log("Enviando para o Back-end:", agendamento);
-    alert("Agendamento Enviado! (Olhe o console)");
+    this.agendamentoService.finalizarAgendamento(agendamento).subscribe({
+      next: (res) => alert("Agendamento realizado!"),
+      error: (err) => alert("Erro ao salvar. Verifique se criou o Controller de Agendamento no Java.")
+    });
   }
 }

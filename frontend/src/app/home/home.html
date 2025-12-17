@@ -30,18 +30,16 @@
         <p>Selecione o tipo de serviço desejado</p>
       </div>
       <div class="grid-areas">
-        <div *ngFor="let area of areas" class="card-option" [class.selected]="areaSelecionada?.id === area.id"
-          (click)="selecionarArea(area)">
+        <div *ngFor="let area of areas" class="card-option" 
+             [class.selected]="areaSelecionada?.id === area.id"
+             (click)="selecionarArea(area)">
           <div class="card-text">
             <h3>{{ area.nome }}</h3>
             <p>{{ area.descricao }}</p>
           </div>
         </div>
       </div>
-      <div class="footer-actions">
-        <button class="btn-proximo" [disabled]="!areaSelecionada" (click)="proximoPasso()">Próximo ➜</button>
       </div>
-    </div>
 
     <div *ngIf="passoAtual === 2" class="fade-in">
       <div class="header-section">
@@ -54,9 +52,9 @@
           <div class="servico-info">
             <h3>{{ servico.nome }}</h3>
             <p>{{ servico.descricao }}</p>
-            <small>⏱ {{ servico.tempoAtendimento }}</small>
+            <small>⏱ {{ servico.tempo_atendimento || servico.tempoAtendimento }}</small>
           </div>
-          <div class="servico-preco">R$ {{ servico.valor }}</div>
+          <div class="servico-preco">{{ servico.valor | currency:'BRL' }}</div>
         </div>
       </div>
     </div>
@@ -79,7 +77,7 @@
           <div class="avatar">👤</div>
           <div class="info">
             <h3>{{ prof.nome }}</h3>
-            <p>Especialista</p>
+            <p>Especialista disponível</p>
           </div>
         </div>
       </div>
@@ -108,11 +106,14 @@
         <div class="resumo-item"><span>Categoria:</span> <strong>{{ areaSelecionada?.nome }}</strong></div>
         <div class="resumo-item"><span>Serviço:</span> <strong>{{ servicoSelecionado?.nome }}</strong></div>
         <div class="resumo-item"><span>Profissional:</span> <strong>{{ profissionalSelecionado?.nome }}</strong></div>
-        <div class="resumo-item"><span>Valor Total:</span> <strong class="valor">R$ {{ servicoSelecionado?.valor
-            }}</strong></div>
+        <div class="resumo-item">
+          <span>Valor Total:</span> 
+          <strong class="valor">{{ servicoSelecionado?.valor | currency:'BRL' }}</strong>
+        </div>
 
-        <button class="btn-confirmar" [disabled]="!dataSelecionada || !horaSelecionada"
-          (click)="finalizarAgendamento()">
+        <button class="btn-confirmar" 
+                [disabled]="!dataSelecionada || !horaSelecionada"
+                (click)="finalizarAgendamento()">
           💲 Confirmar Agendamento
         </button>
       </div>
