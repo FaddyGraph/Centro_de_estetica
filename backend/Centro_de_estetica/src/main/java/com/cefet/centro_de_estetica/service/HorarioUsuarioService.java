@@ -26,13 +26,14 @@ public class HorarioUsuarioService {
 
     public HorarioUsuario salvar(HorarioUsuarioRequestDTO dto) {
         
-        Usuario funcionario = usuarioRepository.findById(dto.idFuncionario())
-                .orElseThrow(() -> new RuntimeException("Funcionário não encontrado com id: " + dto.idFuncionario()));
+        Usuario funcionario = usuarioRepository.findById(dto.getIdFuncionario())
+                .orElseThrow(() -> new RuntimeException("Funcionário não encontrado com id: " + dto.getIdFuncionario()));
 
         HorarioUsuario horario = new HorarioUsuario();
-        horario.setDiaSemana(dto.diaSemana());
-        horario.setHorarioInicio(dto.horarioInicio());
-        horario.setHorarioFim(dto.horarioFim());
+        
+        horario.setDiaSemana(dto.getDiaSemana());
+        horario.setHorarioInicio(dto.getHorarioInicio());
+        horario.setHorarioFim(dto.getHorarioFim());
         
         horario.setFuncionario(funcionario);
 

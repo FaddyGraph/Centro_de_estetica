@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping; 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,7 +21,6 @@ import com.cefet.centro_de_estetica.dto.UsuarioRequestDTO;
 import com.cefet.centro_de_estetica.dto.UsuarioResponseDTO;
 import com.cefet.centro_de_estetica.service.UsuarioService;
 
-
 @RestController
 @RequestMapping("/usuarios")
 @CrossOrigin("*")
@@ -32,10 +32,11 @@ public class UsuarioController {
         this.service = service;
     }
 
+    // --- MÉTODOS EXISTENTES ---
+
     @PostMapping
     public ResponseEntity<UsuarioResponseDTO> criar(@RequestBody @Validated UsuarioRequestDTO dados) {
         UsuarioResponseDTO novoUsuario = service.salvar(dados);
-        
         return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuario);
     }
 
@@ -70,7 +71,6 @@ public class UsuarioController {
                 .orElse(ResponseEntity.notFound().build());
     }
     
-    // /usuarios/buscar-nome?nome=${nome} funciona para pedaacos do nome e não é case sensitivity
     @GetMapping("/buscar-nome")
     public ResponseEntity<List<UsuarioResponseDTO>> buscarPorNome(@RequestParam String nome) {
         List<UsuarioResponseDTO> resultados = service.buscarProfissionaisPorParteDoNome(nome);
@@ -79,21 +79,41 @@ public class UsuarioController {
     
     @GetMapping("/verificar-email")
     public ResponseEntity<Boolean> verificarEmail(@RequestParam String email) {
-        boolean existe = service.verificarSeEmailExiste(email); // Ou chame o repository direto se preferir
+        boolean existe = service.verificarSeEmailExiste(email);
         return ResponseEntity.ok(existe);
     }
 
-    
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioResponseDTO> atualizar(@PathVariable Long id, @RequestBody @Validated UsuarioRequestDTO dados) {
         UsuarioResponseDTO atualizado = service.atualizar(id, dados);
         return ResponseEntity.ok(atualizado);
     }
-
     
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         service.deletar(id);
-        return ResponseEntity.noContent().build(); // Retorna Sucesso, mas sem conteúdo
+        return ResponseEntity.noContent().build();
+    }
+
+    // --- NOVOS ENDPOINTS PARA A TELA DE CLIENTES ---
+
+    // 1. Listar apenas CLIENTES (usado na tabela)
+    @GetMapping("/clientes")
+    public ResponseEntity<List<UsuarioResponseDTO>> listarClientes() {
+        return ResponseEntity.ok(service.listarClientes());
+    }
+
+    // 2. Cadastrar Cliente via Modal (Endereço específico chamado pelo front)
+    @PostMapping("/clientes")
+    public ResponseEntity<UsuarioResponseDTO> cadastrarCliente(@RequestBody @Validated UsuarioRequestDTO dados) {
+        // Reutilizamos o método salvar, que já trata a criação
+        UsuarioResponseDTO novoCliente = service.salvar(dados);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoCliente);
+    }
+
+    // 3. Alterar Status (Ativar/Desativar)
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<UsuarioResponseDTO> alterarStatus(@PathVariable Long id) {
+        return ResponseEntity.ok(service.alterarStatus(id));
     }
 }

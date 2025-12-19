@@ -127,6 +127,9 @@ public class AgendamentoService {
                 case FUNCIONARIO:
                     agendamentos = agendamentoRepository.findByFuncionarioAndDataHoraBetween(usuario, inicioDia, fimDia);
                     break;
+                case GERENTE:
+                	agendamentos = agendamentoRepository.findByFuncionarioAndDataHoraBetween(usuario, inicioDia, fimDia);
+                	break;
                 case CLIENTE:
                     agendamentos = agendamentoRepository.findByClienteAndDataHoraBetween(usuario, inicioDia, fimDia);
                     break;

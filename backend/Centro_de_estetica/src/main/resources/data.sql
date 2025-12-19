@@ -47,11 +47,11 @@ INSERT INTO tb_horario_usuario (dia_semana, horario_inicio, horario_fim, id_usua
 INSERT INTO tb_horario_usuario (dia_semana, horario_inicio, horario_fim, id_usuario_funcionario) VALUES ('SAB', '08:00:00', '14:00:00', 4);
 
 -- 6. AGENDAMENTOS 
-INSERT INTO tb_agendamento (id, data_hora, observacoes, status, valor_cobrado, id_cliente, id_funcionario, id_servico) VALUES (1, '2025-12-25T14:00:00', 'Cliente gosta de café', 'AGENDADO', 80.00, 5, 2, 2);
+INSERT INTO tb_agendamento (id, data_hora, observacoes, status, valor_cobrado, id_cliente, id_funcionario, id_servico) VALUES (1, '2025-12-25T14:00:00', '', 'AGENDADO', 80.00, 5, 2, 2);
 
-INSERT INTO tb_agendamento (id, data_hora, observacoes, status, valor_cobrado, id_cliente, id_funcionario, id_servico) VALUES (2, '2025-12-26T15:00:00', 'Primeira vez', 'CONCLUIDO', 45.00, 9, 4, 1);
+INSERT INTO tb_agendamento (id, data_hora, observacoes, status, valor_cobrado, id_cliente, id_funcionario, id_servico) VALUES (2, '2025-12-26T15:00:00', '', 'CONCLUIDO', 45.00, 9, 4, 1);
 
-INSERT INTO tb_agendamento (id, data_hora, observacoes, status, valor_cobrado, id_cliente, id_funcionario, id_servico) VALUES (3, '2025-12-27T10:00:00', 'Imprevisto no trabalho', 'CANCELADO', 120.00, 6, 3, 4);
+INSERT INTO tb_agendamento (id, data_hora, observacoes, status, valor_cobrado, id_cliente, id_funcionario, id_servico) VALUES (3, '2025-12-27T10:00:00', '', 'CANCELADO', 120.00, 6, 3, 4);
 
 -- 7. REINICIAR OS CONTADORES (Para evitar erro 500 ao criar novo usuário)
 ALTER TABLE tb_area ALTER COLUMN id RESTART WITH 5;

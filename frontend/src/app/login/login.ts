@@ -1,16 +1,15 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../services/auth';
+import { AuthService } from '../services/auth'; 
 import { Router } from '@angular/router';
-import { NgxMaskDirective } from 'ngx-mask';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask'; // Importante para a máscara funcionar
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, NgxMaskDirective],
+  providers: [provideNgxMask()], // Adicionado provider da máscara
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
@@ -28,13 +27,13 @@ export class LoginComponent {
     private authService: AuthService,
     private router: Router
   ) {
-    // 1. Formulário de Login
+    // Formulário de Login
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       senha: ['', Validators.required]
     });
 
-    // 2. Formulário de Cadastro (Nome, Email, WhatsApp, Senha)
+    // Formulário de Cadastro (Nome, Email, WhatsApp, Senha)
     this.cadastroForm = this.fb.group({
       nome: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -43,7 +42,7 @@ export class LoginComponent {
     });
   }
 
-  // Função para trocar de tela
+  // Função para trocar de tela (Login <-> Cadastro)
   toggleMode() {
     this.isLoginMode = !this.isLoginMode;
     this.erroLogin = false; // Limpa erros antigos
@@ -53,33 +52,37 @@ export class LoginComponent {
     this.mostrarSenha = !this.mostrarSenha;
   }
 
-
-
   onSubmit() {
-    // LÓGICA DE LOGIN
+    // --- LÓGICA DE LOGIN ---
     if (this.isLoginMode) {
       if (this.loginForm.valid) {
         this.authService.login(this.loginForm.value).subscribe({
           next: (usuario) => {
             console.log('Login Sucesso:', usuario);
+            
+            // Salva no localStorage
             localStorage.setItem('usuario', JSON.stringify(usuario));
-            alert("Bem-vindo(a) " + usuario.nome);
-            this.router.navigate(['/home']); // Descomente quando criar a home
+            
+            if (usuario.tipo === 'CLIENTE') {
+              this.router.navigate(['/home']);
+            } else {
+              this.router.navigate(['/funcionario']); 
+            }
           },
           error: (err) => {
+            console.error(err);
             this.erroLogin = true;
           }
         });
       }
 
-      // LÓGICA DE CADASTRO
+    // --- LÓGICA DE CADASTRO ---
     } else {
       if (this.cadastroForm.valid) {
-
         // Um objeto novo misturando os dados do form + o perfil fixo
         const dadosCadastro = {
-          ...this.cadastroForm.value,  // Pega (nome, email, senha, telefone)
-          tipo: 'CLIENTE',
+          ...this.cadastroForm.value,
+          tipo: 'CLIENTE', // Todo mundo que se cadastra sozinho é cliente
           statusUsuario: 'ATIVO'
         };
 
@@ -89,12 +92,11 @@ export class LoginComponent {
             this.toggleMode(); // Volta para a tela de login automaticamente
           },
           error: (err) => {
-            alert('Erro ao cadastrar. Tente novamente.');
+            alert('Erro ao cadastrar. Verifique os dados.');
             console.error(err);
           }
         });
       }
     }
   }
-
 }

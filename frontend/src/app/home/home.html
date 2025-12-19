@@ -30,9 +30,8 @@
         <p>Selecione o tipo de serviço desejado</p>
       </div>
       <div class="grid-areas">
-        <div *ngFor="let area of areas" class="card-option" 
-             [class.selected]="areaSelecionada?.id === area.id"
-             (click)="selecionarArea(area)">
+        <div *ngFor="let area of areas" class="card-option" [class.selected]="areaSelecionada?.id === area.id"
+          (click)="selecionarArea(area)">
           <div class="card-text">
             <h3>{{ area.nome }}</h3>
             <p>{{ area.descricao }}</p>
@@ -86,21 +85,16 @@
 
         <div class="input-group">
           <label>Data:</label>
-          <input type="date" name="data" [(ngModel)]="dataSelecionada" 
-                 [min]="dataMinima"
-                 (change)="atualizarDisponibilidade()" class="custom-input">
+          <input type="date" name="data" [(ngModel)]="dataSelecionada" [min]="dataMinima"
+            (change)="atualizarDisponibilidade()" class="custom-input">
         </div>
 
         <div class="input-group">
           <label>Horários Disponíveis:</label>
           <div class="grid-horarios">
-            <button *ngFor="let h of horariosDisponiveis" 
-                    type="button"
-                    class="btn-hora"
-                    [class.selecionado]="horaSelecionada === h"
-                    [class.ocupado]="estaOcupado(h)"
-                    [disabled]="estaOcupado(h)"
-                    (click)="selecionarHora(h)">
+            <button *ngFor="let h of horariosDisponiveis" type="button" class="btn-hora"
+              [class.selecionado]="horaSelecionada === h" [class.ocupado]="estaOcupado(h)" [disabled]="estaOcupado(h)"
+              (click)="selecionarHora(h)">
               {{ h }}
             </button>
           </div>
@@ -111,13 +105,8 @@
 
         <div class="input-group" style="margin-top: 20px;">
           <label>Observações para o profissional:</label>
-          <textarea 
-            [(ngModel)]="observacoesCliente" 
-            name="observacoes" 
-            class="custom-input" 
-            style="resize: none;"
-            placeholder="Ex: Tenho preferência por tal produto ou restrição a..."
-            rows="3">
+          <textarea [(ngModel)]="observacoesCliente" name="observacoes" class="custom-input" style="resize: none;"
+            placeholder="Ex: Tenho preferência por tal produto ou restrição a..." rows="3">
           </textarea>
         </div>
       </div>
@@ -125,30 +114,29 @@
       <div class="resumo-card">
         <h3>Resumo do Agendamento</h3>
         <div class="resumo-item">
-          <span>Serviço:</span> 
+          <span>Serviço:</span>
           <strong>{{ servicoSelecionado?.nome }}</strong>
         </div>
         <div class="resumo-item">
-          <span>Profissional:</span> 
+          <span>Profissional:</span>
           <strong>{{ profissionalSelecionado?.nome }}</strong>
         </div>
         <div class="resumo-item">
-          <span>Data:</span> 
+          <span>Data:</span>
           <strong>{{ dataSelecionada ? (dataSelecionada | date:'dd/MM/yyyy') : '--' }}</strong>
         </div>
         <div class="resumo-item">
-          <span>Horário:</span> 
+          <span>Horário:</span>
           <strong>{{ horaSelecionada || '--' }}</strong>
         </div>
         <div class="resumo-item">
-          <span>Valor Total:</span> 
+          <span>Valor Total:</span>
           <strong class="valor">{{ servicoSelecionado?.valor | currency:'BRL' }}</strong>
         </div>
 
-        <button class="btn-confirmar" 
-                [disabled]="!dataSelecionada || !horaSelecionada"
-                (click)="finalizarAgendamento()">
-            Confirmar Agendamento
+        <button class="btn-confirmar" [disabled]="!dataSelecionada || !horaSelecionada"
+          (click)="finalizarAgendamento()">
+          Confirmar Agendamento
         </button>
       </div>
     </div>
@@ -157,23 +145,23 @@
       <div class="success-icon">✔️</div>
       <h2>Agendamento Confirmado!</h2>
       <p>Tudo pronto! <strong>{{ profissionalSelecionado?.nome }}</strong> estará te esperando.</p>
-      
+
       <div class="comprovante-box">
         <h3>Detalhes da Reserva</h3>
         <div class="resumo-item">
-          <span>✂️ Serviço:</span> 
+          <span>✂️ Serviço:</span>
           <strong>{{ servicoSelecionado?.nome }}</strong>
         </div>
         <div class="resumo-item">
-          <span>📅 Data:</span> 
+          <span>📅 Data:</span>
           <strong>{{ dataSelecionada | date:'dd/MM/yyyy' }}</strong>
         </div>
         <div class="resumo-item">
-          <span>⏰ Horário:</span> 
+          <span>⏰ Horário:</span>
           <strong>{{ horaSelecionada }}</strong>
         </div>
         <div class="resumo-item">
-          <span>💰 Valor Total:</span> 
+          <span>💰 Valor Total:</span>
           <strong class="valor">{{ servicoSelecionado?.valor | currency:'BRL' }}</strong>
         </div>
       </div>
