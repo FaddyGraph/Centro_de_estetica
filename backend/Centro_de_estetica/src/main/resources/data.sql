@@ -16,7 +16,7 @@ INSERT INTO tb_servico (id, nome, descricao, valor, tempo_atendimento, id_area) 
 INSERT INTO tb_usuario (id_usuario, nome, email, senha, telefone, status_usuario, tipo) VALUES (1, 'Flavio', 'flavio@admin.com', '1234', '31999990001', 'ATIVO', 'ADMIN');
 
 -- ID 2: Funcionária Rafaella
-INSERT INTO tb_usuario (id_usuario, nome, email, senha, telefone, status_usuario, tipo) VALUES (2, 'Rafaella Corcini', 'rafaella@estetica.com', '1234', '31999990002', 'ATIVO', 'FUNCIONARIO');
+INSERT INTO tb_usuario (id_usuario, nome, email, senha, telefone, status_usuario, tipo) VALUES (2, 'Rafaella Corcini', 'rafaella@estetica.com', '1234', '31999990002', 'ATIVO', 'GERENTE');
 
 -- ID 3: Funcionária Maria Luiza
 INSERT INTO tb_usuario (id_usuario, nome, email, senha, telefone, status_usuario, tipo) VALUES (3, 'Maria Luiza', 'mlpaq@estetica.com', '1234', '31999990003', 'ATIVO', 'FUNCIONARIO');
