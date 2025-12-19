@@ -11,7 +11,6 @@ export class AgendamentoService {
 
   constructor(private http: HttpClient) { }
 
-
   listarAreas(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/areas`); 
   }
@@ -23,7 +22,6 @@ export class AgendamentoService {
   listarFuncionarios(idServico: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/usuarios/servico/${idServico}`);
   }
-
 
   buscarAgendaDoDia(usuarioId: number, data: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/agendamentos/agenda-diaria`, {
@@ -42,7 +40,6 @@ export class AgendamentoService {
   cancelarAgendamento(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/agendamentos/${id}`);
   }
-
 
   buscarHorariosTrabalho(idFuncionario: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/horarios/funcionario/${idFuncionario}`);
@@ -66,6 +63,22 @@ export class AgendamentoService {
 
   alterarStatusUsuario(id: number): Observable<any> {
     return this.http.patch<any>(`${this.apiUrl}/usuarios/${id}/status`, {});
+  }
+
+  listarTodosServicos(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/servicos`);
+  }
+
+  cadastrarServico(servico: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/servicos`, servico);
+  }
+
+  atualizarServico(id: number, servico: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/servicos/${id}`, servico);
+  }
+
+  excluirServico(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/servicos/${id}`);
   }
 
   listarClientes(): Observable<any[]> {

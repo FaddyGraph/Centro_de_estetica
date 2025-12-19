@@ -19,12 +19,18 @@ export class FuncionarioComponent implements OnInit {
 
   listaClientes: any[] = [];
   listaFuncionarios: any[] = [];
+  listaServicos: any[] = [];
 
   modalAberto: boolean = false;
-  perfilCadastro: string = 'CLIENTE'; 
+  modalServicoAberto: boolean = false;
+  perfilCadastro: string = 'CLIENTE';
 
   usuarioEdicao: any = {
     id: null, nome: '', email: '', telefone: '', senha: '', cargo: '', ativo: true
+  };
+
+  servicoEdicao: any = {
+    id: null, nome: '', descricao: '', tempoAtendimento: 30, valor: 0, idArea: null
   };
 
   agendaProfissional: any[] = [];
@@ -51,7 +57,7 @@ export class FuncionarioComponent implements OnInit {
     if (this.usuarioLogado) {
       this.carregarHorariosSalvos();
       this.carregarAgendaDoProfissional();
-      this.carregarUsuariosDoSistema(); 
+      this.carregarUsuariosDoSistema();
     }
   }
 
@@ -74,6 +80,7 @@ export class FuncionarioComponent implements OnInit {
 
     if (novaAba === 'AGENDAMENTOS') this.carregarAgendaDoProfissional();
     if (novaAba === 'AREAS') this.carregarAreas();
+    if (novaAba === 'SERVICOS') this.carregarServicosDoSistema();
     if (novaAba === 'USUARIOS' || novaAba === 'FUNCIONARIOS') {
       this.carregarUsuariosDoSistema();
     }
@@ -87,9 +94,18 @@ export class FuncionarioComponent implements OnInit {
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error("Erro ao carregar usuários do Java:", err);
+        console.error(err);
         this.listaClientes = [];
         this.listaFuncionarios = [];
+      }
+    });
+  }
+
+  carregarServicosDoSistema() {
+    this.agendamentoService.listarTodosServicos().subscribe({
+      next: (dados) => {
+        this.listaServicos = dados;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -102,14 +118,25 @@ export class FuncionarioComponent implements OnInit {
     this.modalAberto = true;
   }
 
+  abrirModalServico(servico?: any) {
+    this.carregarAreas();
+    if (servico) {
+      this.servicoEdicao = { ...servico, idArea: servico.area?.id };
+    } else {
+      this.servicoEdicao = { id: null, nome: '', descricao: '', tempoAtendimento: 30, valor: 0, idArea: null };
+    }
+    this.modalServicoAberto = true;
+  }
+
   editarUsuario(usuario: any) {
     this.perfilCadastro = usuario.tipo || (this.abaAtual === 'FUNCIONARIOS' ? 'FUNCIONARIO' : 'CLIENTE');
-    this.usuarioEdicao = { ...usuario, senha: '' }; 
+    this.usuarioEdicao = { ...usuario, senha: '' };
     this.modalAberto = true;
   }
 
   fecharModal() {
     this.modalAberto = false;
+    this.modalServicoAberto = false;
   }
 
   salvarUsuario() {
@@ -117,34 +144,57 @@ export class FuncionarioComponent implements OnInit {
       alert('Por favor, preencha nome e email.');
       return;
     }
-
     this.usuarioEdicao.tipo = this.perfilCadastro;
-
-    const acao = this.usuarioEdicao.id 
+    const acao = this.usuarioEdicao.id
       ? this.agendamentoService.atualizarUsuario(this.usuarioEdicao.id, this.usuarioEdicao)
       : this.agendamentoService.cadastrarUsuario(this.usuarioEdicao);
 
     acao.subscribe({
       next: () => {
-        alert('Dados salvos no banco de dados com sucesso!');
+        alert('Dados salvos com sucesso!');
         this.fecharModal();
-        this.carregarUsuariosDoSistema(); 
+        this.carregarUsuariosDoSistema();
       },
       error: (err) => {
         console.error(err);
-        alert('Erro ao salvar no banco. Verifique se o Java está rodando.');
+        alert('Erro ao salvar no banco.');
       }
     });
+  }
+
+  salvarServico() {
+    if (!this.servicoEdicao.nome || !this.servicoEdicao.idArea) {
+      alert('Preencha o nome e selecione uma área.');
+      return;
+    }
+    const acao = this.servicoEdicao.id
+      ? this.agendamentoService.atualizarServico(this.servicoEdicao.id, this.servicoEdicao)
+      : this.agendamentoService.cadastrarServico(this.servicoEdicao);
+
+    acao.subscribe({
+      next: () => {
+        alert('Serviço salvo com sucesso!');
+        this.fecharModal();
+        this.carregarServicosDoSistema();
+      }
+    });
+  }
+
+  excluirServico(id: number) {
+    if (confirm('Deseja excluir este serviço?')) {
+      this.agendamentoService.excluirServico(id).subscribe({
+        next: () => this.carregarServicosDoSistema()
+      });
+    }
   }
 
   alternarStatus(usuario: any) {
     if (!usuario.id) return;
     const acaoTexto = usuario.ativo ? 'desativar' : 'ativar';
-    
     if (confirm(`Tem certeza que deseja ${acaoTexto} o usuário ${usuario.nome}?`)) {
       this.agendamentoService.alterarStatusUsuario(usuario.id).subscribe({
         next: () => {
-          this.carregarUsuariosDoSistema(); 
+          this.carregarUsuariosDoSistema();
         },
         error: (err) => {
           console.error(err);
@@ -154,7 +204,6 @@ export class FuncionarioComponent implements OnInit {
     }
   }
 
-  
   carregarHorariosSalvos() {
     if (!this.usuarioLogado?.id) return;
     this.agendamentoService.buscarHorariosTrabalho(this.usuarioLogado.id).subscribe({
@@ -214,18 +263,18 @@ export class FuncionarioComponent implements OnInit {
   private saoConsecutivos = (t1: string, t2: string) => (this.toMinutes(t2) - this.toMinutes(t1)) === 15;
   private adicionar15Min = (t: string) => {
     let m = this.toMinutes(t) + 15;
-    return `${Math.floor(m/60).toString().padStart(2,'0')}:${(m%60).toString().padStart(2,'0')}`;
+    return `${Math.floor(m / 60).toString().padStart(2, '0')}:${(m % 60).toString().padStart(2, '0')}`;
   }
-  private toMinutes = (t: string) => { const [h,m] = t.split(':').map(Number); return h*60+m; };
-  private converterDiaNomeParaEnum = (n: string) => ({'Domingo':'DOM','Segunda':'SEG','Terça':'TER','Quarta':'QUA','Quinta':'QUI','Sexta':'SEX','Sábado':'SAB'}[n] || 'SEG');
-  private converterEnumParaDiaNome = (e: string) => ({'DOM':'Domingo','SEG':'Segunda','TER':'Terça','QUA':'Quarta','QUI':'Quinta','SEX':'Sexta','SAB':'Sábado'}[e] || 'Segunda');
+  private toMinutes = (t: string) => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+  private converterDiaNomeParaEnum = (n: string) => ({ 'Domingo': 'DOM', 'Segunda': 'SEG', 'Terça': 'TER', 'Quarta': 'QUA', 'Quinta': 'QUI', 'Sexta': 'SEX', 'Sábado': 'SAB' }[n] || 'SEG');
+  private converterEnumParaDiaNome = (e: string) => ({ 'DOM': 'Domingo', 'SEG': 'Segunda', 'TER': 'Terça', 'QUA': 'Quarta', 'QUI': 'Quinta', 'SEX': 'Sexta', 'SAB': 'Sábado' }[e] || 'Segunda');
 
   private preencherSlotsNoIntervalo(dia: string, inicio: string, fim: string) {
-    let minA = this.toMinutes(inicio.substring(0,5));
-    const minF = this.toMinutes(fim.substring(0,5));
+    let minA = this.toMinutes(inicio.substring(0, 5));
+    const minF = this.toMinutes(fim.substring(0, 5));
     if (!this.horariosConfigurados[dia]) this.horariosConfigurados[dia] = [];
     while (minA < minF) {
-      const h = `${Math.floor(minA/60).toString().padStart(2,'0')}:${(minA%60).toString().padStart(2,'0')}`;
+      const h = `${Math.floor(minA / 60).toString().padStart(2, '0')}:${(minA % 60).toString().padStart(2, '0')}`;
       if (!this.horariosConfigurados[dia].includes(h)) this.horariosConfigurados[dia].push(h);
       minA += 15;
     }
